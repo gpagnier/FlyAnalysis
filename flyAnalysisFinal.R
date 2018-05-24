@@ -6,8 +6,8 @@ library(mosaic)
 library(colorspace)
 library(sciplot)
 
-d0<-read.csv(file="GuillaumeOperantData.csv")
-#d0<-read.csv(file.choose(),header=TRUE)
+#d0<-read.csv(file="GuillaumeOperantData.csv")
+d0<-read.csv(file.choose(),header=TRUE)
 d<-d0[,c(1:8)]
 
 #Things you need to set everytime you run script!
@@ -17,7 +17,7 @@ d<-d0[,c(1:8)]
 day1time=120
 day2time=900
 fps=5
-pools=3
+pools=5
 
 
 
@@ -182,9 +182,6 @@ plot(NULL,type="p",xaxt="n",ylim=c(0,20),xlim=c(1,2),xlab="Day",ylab = "Number o
 axis(side=1,at=c(1,2))
 for(i in etoh90Ids){
   di<-filter(d,id==i)
-  dsub<-di %>% 
-    group_by(session) %>% 
-    summarise(countAlcohol=round(length(Fly.in.rewd.region.[Fly.in.rewd.region.==TRUE])/fps))
   for(h in 1:2){
     dsubi<-filter(di,session==h)
     if(unique(dsubi$session==1)){
@@ -217,9 +214,6 @@ for(i in etoh90Ids){
 plot(NULL,type="p",xaxt="n",ylim=c(0,350),xlim=c(1,2),ylab = "Mean Time spent in rewarding region (s)",main=paste("IAA+90% Etoh; Time spent in rewarding region per entry; n= ",length(etoh90Ids)),xlab="Day")
 for(i in etoh90Ids){
   di<-filter(d,id==i)
-  dsub<-di %>% 
-    group_by(session) %>% 
-    summarise(countAlcohol=round(length(Fly.in.rewd.region.[Fly.in.rewd.region.==TRUE])/fps))
   for(h in 1:2){
     dsubi<-filter(di,session==h)
     if(unique(dsubi$session==1)){
@@ -251,9 +245,6 @@ plot(NULL,type="p",xaxt="n",ylim=c(0,50),xlim=c(1,2),xlab="Day",ylab = "Number o
 axis(side=1,at=c(1,2))
 for(i in controlIds){
   di<-filter(d,id==i)
-  dsub<-di %>% 
-    group_by(session) %>% 
-    summarise(countAlcohol=round(length(Fly.in.rewd.region.[Fly.in.rewd.region.==TRUE])/fps))
   for(h in 1:2){
     dsubi<-filter(di,session==h)
     if(unique(dsubi$session==1)){
@@ -285,9 +276,6 @@ for(i in controlIds){
 plot(NULL,type="p",xaxt="n",ylim=c(0,350),xlim=c(1,2),ylab = "Mean Time spent in rewarding region (s)",main=paste("IAA only; Time spent in rewarding region per entry; n= ",length(controlIds)),xlab="Day")
 for(i in controlIds){
   di<-filter(d,id==i)
-  dsub<-di %>% 
-    group_by(session) %>% 
-    summarise(countAlcohol=round(length(Fly.in.rewd.region.[Fly.in.rewd.region.==TRUE])/fps))
   for(h in 1:2){
     dsubi<-filter(di,session==h)
     if(unique(dsubi$session==1)){
@@ -373,50 +361,142 @@ barplot(ntime,xlab="IAA                                                      IAA
 
 
 
-pool1<-NULL
-pool2<-NULL
-pool3<-NULL
-pool4<-NULL
-pool5<-NULL
-
 
 #Making barplot, pooling by time day 2
 plot(NULL,type="p",xaxt="n",ylim=c(0,350),xlim=c(1,2),ylab = "Time spent in rewarding region (s)",main=paste("IAA+90%EtoH; ",day1time/60,"minutes on day one;",day2time/60,"minutes on day two"),xlab="Day")
 axis(side=1,at=c(1,2))
 for(i in etoh90Ids){
   for(k in 1:pools){
-  di<-filter(d,id==i,session==2)
-  tempr<-floor(nrow(di)/pools)
-  di<-di[1+(tempr*(k-1)):(k*tempr),]
-  dsub1<-di %>% 
-    group_by(session) %>% 
-    summarise(countAlcohol=round(length(Fly.in.rewd.region.[Fly.in.rewd.region.==TRUE])/fps))
-  if(k==1){
-    pool1<-c(pool1,dsub1$countAlcohol[1])
-  } else if(k==2){
-    pool2<-c(pool2,dsub1$countAlcohol[1])
-  }else if(k==2){
-    pool2<-c(pool2,dsub1$countAlcohol[1])
-  } else if(k==3){
-    pool3<-c(pool3,dsub1$countAlcohol[1])
-  }else if(k==4){
-    pool4<-c(pool4,dsub1$countAlcohol[1])
-  }else if(k==5){
-    pool4<-c(pool5,dsub1$countAlcohol[1])
-  }
-    
-    
-}
+    di<-filter(d,id==i,session==2)
+    tempr<-floor(nrow(di)/pools)
+    di<-di[1+(tempr*(k-1)):(k*tempr),]
+    dsub1<-di %>% 
+      group_by(session) %>% 
+      summarise(countAlcohol=round(length(Fly.in.rewd.region.[Fly.in.rewd.region.==TRUE])/fps))
+    if(k==1){
+      pool1<-c(pool1,dsub1$countAlcohol[1])
+    } else if(k==2){
+      pool2<-c(pool2,dsub1$countAlcohol[1])
+    }else if(k==2){
+      pool2<-c(pool2,dsub1$countAlcohol[1])
+    } else if(k==3){
+      pool3<-c(pool3,dsub1$countAlcohol[1])
+    }else if(k==4){
+      pool4<-c(pool4,dsub1$countAlcohol[1])
+    }else if(k==5){
+      pool5<-c(pool5,dsub1$countAlcohol[1])
+    }else if(k==6){
+      pool6<-c(pool6,dsub1$countAlcohol[1])
+    }else if(k==7){
+      pool7<-c(pool7,dsub1$countAlcohol[1])
+    }else if(k==8){
+      pool8<-c(pool8,dsub1$countAlcohol[1])
+    }else if(k==9){
+      pool9<-c(pool9,dsub1$countAlcohol[1])
+    }else if(k==10){
+      pool10<-c(pool10,dsub1$countAlcohol[1])
+    }else if(k==11){
+      pool11<-c(pool11,dsub1$countAlcohol[1])
+    }else if(k==12){
+      pool12<-c(pool12,dsub1$countAlcohol[1])
+    }else if(k==13){
+      pool13<-c(pool13,dsub1$countAlcohol[1])
+    }else if(k==14){
+      pool14<-c(pool14,dsub1$countAlcohol[1])
+    }else if(k==15){
+      pool15<-c(pool15,dsub1$countAlcohol[1])
+    }
+ }
 }
 
 ##Making actual graph
 #lines(dsub$countAlcohol,type="o",xaxt="n",col=sample(rainbow_hcl(100)))
-Means<-c(mean(pool1),mean(pool2),mean(pool3))
-sds<-c(sd(pool1),sd(pool2),sd(pool3))
-g1<-barplot(height=Means,ylim=c(0,50),beside=T,xlab=paste("Time. Each bar is",day2time/pools,"seconds"),main="Time spent in rewarding region on day 2")
+#Have to hard code how many pools you want....Annyong but saves time in long run
+Means<-c(mean(pool1),mean(pool2),mean(pool3),mean(pool4),mean(pool5),mean(pool6),mean(pool7),mean(pool8),mean(pool9),mean(pool10),mean(pool11),mean(pool12),mean(pool13),mean(pool14),mean(pool15))
+sds<-c(sd(pool1),sd(pool2),sd(pool3),sd(pool4),sd(pool5),sd(pool6),sd(pool7),sd(pool8),sd(pool9),sd(pool10),sd(pool11),sd(pool12),sd(pool13),sd(pool14),sd(pool15))
+g1<-barplot(height=Means,ylim=c(0,50),beside=T,xlab=paste("Time. Each bar is",day2time/pools,"seconds"))
 arrows(g1, Means - sds * 2, g1,
        Means + sds * 2, lwd = 1.5, angle = 90,
        code = 3, length = 0.05)
+
+pool1=NULL
+pool2=NULL
+pool3=NULL
+pool4=NULL
+pool5=NULL
+pool6=NULL
+pool7=NULL
+pool8=NULL
+pool9=NULL
+pool10=NULL
+pool11=NULL
+pool12=NULL
+pool13=NULL
+pool14=NULL
+pool15=NULL
+
+##MEAN TIME SPENT PER ENTRY IN REWARDING REGION AND NUMBER OF ENTRIES
+#Making barplot, pooling by time day 2 
+#Reminder: Tcounts2 is a vector of the lengths of all the entries in rewarding region
+#Right now it's collapsing across all flies to increase n.
+plot(NULL,type="p",xaxt="n",ylim=c(0,350),xlim=c(1,2),ylab = "Mean Time spent in rewarding region (s)",xlab="Day",main="Time spent in rewarding region on day 2")
+axis(side=1,at=c(1,2))
+for(i in etoh90Ids){
+  for(k in 1:pools){
+    di<-filter(d,id==i,session==2)
+    tempr<-floor(nrow(di)/pools)
+    di<-di[1+(tempr*(k-1)):(k*tempr),]
+    Tcounts2<-rle(di$Fly.in.rewd.region.)$lengths[rle(di$Fly.in.rewd.region.)$values]
+   # if(Tcounts2==0){k==15}
+
+    if(k==1){
+      pool1<-c(pool1,Tcounts2)
+    } else if(k==2){
+      pool2<-c(pool2,Tcounts2)
+    } else if(k==3){
+      pool3<-c(pool3,Tcounts2)
+    }else if(k==4){
+      pool4<-c(pool4,Tcounts2)
+    }else if(k==5){
+      pool5<-c(pool5,Tcounts2)
+    }else if(k==6){
+      pool6<-c(pool6,Tcounts2)
+    }else if(k==7){
+      pool7<-c(pool7,Tcounts2)
+    }else if(k==8){
+      pool8<-c(pool8,Tcounts2)
+    }else if(k==9){
+      pool9<-c(pool9,Tcounts2)
+    }else if(k==10){
+      pool10<-c(pool10,Tcounts2)
+    }else if(k==11){
+      pool11<-c(pool11,Tcounts2)
+    }else if(k==12){
+      pool12<-c(pool12,Tcounts2)
+    }else if(k==13){
+      pool13<-c(pool13,Tcounts2)
+    }else if(k==14){
+      pool14<-c(pool14,Tcounts2)
+    }else if(k==15){
+      pool15<-c(pool15,Tcounts2)
+    }
+  print(Tcounts2)
+  print(class(Tcounts2))}
+}
+##Making actual graph for mean time spent in rewarding region
+#Have to hard code how many pools you want....Annyong but saves time in long run
+Means<-c(mean(pool1),mean(pool2),mean(pool3),mean(pool4),mean(pool5),mean(pool6),mean(pool7),mean(pool8),mean(pool9),mean(pool10),mean(pool11),mean(pool12),mean(pool13),mean(pool14),mean(pool15))
+sds<-c(sd(pool1),sd(pool2),sd(pool3),sd(pool4),sd(pool5),sd(pool6),sd(pool7),sd(pool8),sd(pool9),sd(pool10),sd(pool11),sd(pool12),sd(pool13),sd(pool14),sd(pool15))
+g1<-barplot(height=Means,ylim=c(0,50),beside=T,xlab=paste("Time. Each bar is",day2time/pools,"seconds into experiment"),main=paste("IAA+90%EtoH; Mean time spent per rewarding region"))
+arrows(g1, Means - sds * 2, g1,
+       Means + sds * 2, lwd = 1.5, angle = 90,
+       code = 3, length = 0.05)
+
+#Using the same pools to make NUMBER OF ENTRIES
+#plot(NULL,type="p",xaxt="n",ylim=c(0,350),xlim=c(1,2),ylab = "Number of entries",xlab="Day",main="Time spent in rewarding region on day 2")
+Lengths<-c(length(pool1),length(pool2),length(pool3),length(pool4),length(pool5),length(pool6),length(pool7),length(pool8),length(pool9),length(pool10),length(pool11),length(pool12),length(pool13),length(pool14),length(pool15))
+g1<-barplot(height=Lengths,ylim=c(0,20),beside=T,xlab=paste("Time. Each bar is",day2time/pools,"seconds into experiment"),main=paste("IAA+90%EtoH; Total number of entries in rewarding region"))
+
 
 ######################################################################
 
@@ -427,101 +507,4 @@ arrows(g1, Means - sds * 2, g1,
 
 
 
-
-
-
-
-
-
-#Making long data frame for ggplot2
-total<-c(total901,total902)
-conds<-rep_len("total901",length(total901))
-conds<-c(conds,rep_len("total902",length(total902)))
-etoh90total<-data.frame(total,conds)
-dsub<-filter(etoh90total,conds=="total901")
-sem1<-se(dsub$total)
-dsub<-filter(etoh90total,conds=="total902")
-sem2<-se(dsub$total)
-dsub<-etoh90total %>% 
-  group_by(conds) %>% 
-  summarise(meanTime=mean(total))
-#Making summary graph with ggplot2 for EtoH90 -number of rewarding seconds
-plot(dsub$meanTime,type="o",xaxt="n",col="black",ylim=c(40,500),xlim=c(1,2),ylab = "Time spent in rewarding region (s)",main="IAA+90%EtOH")
-arrows(1, dsub$meanTime[1]+sem1, 1, dsub$meanTime[1]-sem1, length=0.05, angle=90, code=3)
-arrows(2, dsub$meanTime[2]+sem2, 2, dsub$meanTime[2]-sem2, length=0.05, angle=90, code=3)
-
-
-
-totalC1<-NULL
-totalC2<-NULL
-condsC<-NULL
-totalC=NULL
-etohCEntries=NULL
-#Making each fly its own graph for IAA control flies # of seconds in rewarding region
-
-for(i in controlIds){
-  di<-filter(d,id==i)
-  fps<-round(nrow(di)/(time*2))
-  dsub<-di %>% 
-    group_by(session) %>% 
-    summarise(countAlcohol=round(length(Fly.in.rewd.region.[Fly.in.rewd.region.==TRUE])/fps))
-  totalC1<-c(totalC1,dsub$countAlcohol[1])
-  totalC2<-c(totalC2,dsub$countAlcohol[2])
-  plot(dsub$countAlcohol,type="o",xaxt="n",col="black",ylim=c(0,700),xlim=c(1,2),ylab = "Time spent in rewarding region (s)",main="IAA only")
-  for(h in 1:2){
-    dsubi<-filter(di,session==h)
-    if(unique(dsubi$session==1)){
-      Tcounts1<-rle(dsubi$Fly.in.rewd.region.)$lengths[rle(dsubi$Fly.in.rewd.region.)$values]
-    } else if (unique(dsubi$session==2)){
-      Tcounts2<-rle(dsubi$Fly.in.rewd.region.)$lengths[rle(dsubi$Fly.in.rewd.region.)$values]
-    }
-  }
-  #Coercing 1 entry WHEN flies were forced trained. MAKE SURE IDS are accurate 
-  if(unique(di$id)>=50){Tcounts1<-1}
-  TcountsSum<-c(length(Tcounts1),length(Tcounts2))
-  #Coercing 1 entry WHEN flies were forced trained. MAKE SURE IDS are consistent. 
-  plot(TcountsSum,type="o",xaxt="n",col="black",ylim=c(0,100),xlim=c(1,2),ylab = "Number of entries",main="IAA")
-  #Corecing entry to be length of forced training ONLY WHEN IDS are flies that have been forced train
-  #if(unique(di$id)>=50){Tcounts1<-nrow(filter(di,session==1))}
-  #NOT APPLICABLE FOR FORCED TRAINING
-  #TcountsMean<-c(mean(Tcounts1)/fps,mean(Tcounts2)/fps)
-  etohCEntries<-c(etohCEntries,mean(Tcounts2))
-  }
-#Making long data frame for control ggplot2
-totalC<-c(totalC1,totalC2)
-condsC<-rep_len("totalC1",length(totalC1))
-condsC<-c(condsC,rep_len("totalC2",length(totalC2)))
-etohCtotal<-data.frame(totalC,condsC)
-dsub<-etohCtotal %>% 
-  group_by(condsC) %>% 
-  summarise(meanTime=mean(total))
-dsub<-filter(etohCtotal,condsC=="totalC1")
-dsub<-dsub[Reduce(`&`, lapply(dsub, is.finite)),]
-sem1<-se(dsub$totalC)
-dsub<-filter(etohCtotal,condsC=="totalC2")
-dsub<-dsub[Reduce(`&`, lapply(dsub, is.finite)),]
-sem2<-se(dsub$totalC)
-dsub<-etohCtotal %>% 
-  group_by(condsC) %>% 
-  summarise(meanTime=mean(total))
-
-#MAKING BARPLOT OF NUMBER OF ENTRIES AND AVERAGE TIME
-#aMean<-c(mean(etoh90Entries),mean(etohCEntries))
-#barplot(aMean,ylim=c(0,50))
-#as.table(setNames(etoh90Entries, etohCEntries))
-#barplot(etoh90Entries,)
-etoh90Entries
-etohCEntries
-
-
-b<-c(etoh90Entries,etohCEntries)
-c<-c(rep(90,5),rep(0,4))
-d<-data.frame(b,c)
-colnames(d) <- c("values", "cond")
-p<-ggplot(data = d, aes(cond,values))
-p+stat_summary(fun.y="mean", geom="bar")+ylim(0,40)
-#Making summary graph with ggplot2 for EtoH90 -number of rewarding seconds
-plot(dsub$meanTime,type="o",xaxt="n",col="black",ylim=c(0,700),xlim=c(1,2),ylab = "Time spent in rewarding region (s)",main="IAA only")
-arrows(1, dsub$meanTime[1]+sem1, 1, dsub$meanTime[1]-sem1, length=0.05, angle=90, code=3)
-arrows(2, dsub$meanTime[2]+sem2, 2, dsub$meanTime[2]-sem2, length=0.05, angle=90, code=3)
 
